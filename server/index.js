@@ -12,8 +12,24 @@ connectDb()
 
 app.use(express.json())
 app.use(cors({
-    origin:[process.env.ORIGIN,'https://shopping-cart-mern-yo9j.vercel.app'],
-    credentials:true
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:5173/',
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:5173/'
+    ];
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }))
 app.use(cookieParser())
 
