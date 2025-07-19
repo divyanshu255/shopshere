@@ -11,7 +11,11 @@ const port = 3000
 connectDb()
 
 app.use(express.json())
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+  origin: "https://shopshere-three.vercel.app", 
+  credentials: true, 
+}));
 app.use(cookieParser())
 
 app.use("/api/auth",authRouter)
